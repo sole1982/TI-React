@@ -1,7 +1,9 @@
 import { useState } from 'react'
 
 import './App.css'
-import { TaskList } from './components/TaskList'
+import TaskForm  from './components/TaskForm'
+
+
 
 function App() {
   
@@ -10,7 +12,7 @@ function App() {
   return (
     <>
      <h1>Lista de tareas</h1>
-     <TaskList/>
+     <TaskForm></TaskForm>
     </>
   )
 }
