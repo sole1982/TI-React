@@ -1,26 +1,44 @@
-import React from 'react'
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import { useState } from 'react';
 
-const Modal = ({isOpen, onClose, children}) => {
+
+
+const Modals = ({ isOpen, onClose, onDelete, task }) => {
+  if (!isOpen) {
+    return null; 
+  }
  
-    //Modal que pregunta al usuario si esta seguro de borrar la tarea
- 
-    return (
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  
+  return (
     <>
-   <div  className='modal-container' style={{display: isOpen ? "grid" : "none"}}>
-          <div className='modal-body'>
-          <button  className='modal-close' onClick={onClose}>❌</button>
-          {children}
+    <Button variant="flat"  onClick={handleShow}>
+      Queres borrar la tarea?
+    </Button>
 
-
-           </div>
-   </div>
-
-
-
-
-
-    </>
-  )
+    <Modal show={show} onHide={handleClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>La siguiente en una accion irreversible</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>¿Estás seguro que quieres borrar "{task.title}"</Modal.Body>
+      <Modal.Footer>
+        <Button variant="primary" onClick={() => onDelete(task.id)} >
+          Sí, borrar tarea
+        </Button>
+        <Button variant="info" onClick={() => {
+              onClose();
+             
+            }} >
+          No, no borrar tarea
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  </>
+);
 }
 
-export default Modal
+export default Modals;

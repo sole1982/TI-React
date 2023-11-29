@@ -1,13 +1,30 @@
 import React from 'react';
-import Modal from './Modal';
+import Modals from './Modal';
 import { useState } from 'react';
+import Button from 'react-bootstrap/Button';
+
 
 const TaskItem = ({ task, onToggleComplete, onDelete, onEdit }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [taskToDelete, setTaskToDelete] = useState(null);
+  const [show, setShow] = useState(false);
+
   
-  const [modalEliminar, setModalEliminar] = useState({isOpen: false, task: {}})
-  //devuelve el formulario para la entrada de datos del usuario y las acciones que puede realizar ( eliminar, editar, marcar como completada)
+  const handleToggleModal = () => {
+    setTaskToDelete(task);
+    
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const handleDeleteTask = () => {
+    onDelete(taskToDelete.id);
+    setIsModalOpen(false); 
+  };
+
+  
   return (
-    <div className="d-flex align-items-center list-group-item">
+    <>
+    <div className="d-flex align-items-center list-group-item bg-info-subtle">
       <input
         type="checkbox"
         className="form-check-input mx-2"
@@ -18,29 +35,25 @@ const TaskItem = ({ task, onToggleComplete, onDelete, onEdit }) => {
         {task.title} <br />
         <span className="text-muted">{task.description}</span>
       </p>
-      {task.isCompleted && <span className="badge bg-success">Completada</span>}
-      <button className="btn btn-warning mx-1" onClick={onEdit}>
+      {task.isCompleted && <span className="badge bg-info">Completada</span>}
+      <Button variant="outline-info" className=" mx-1" onClick={onEdit}>
         ✏️
-      </button>
-      <button className="btn btn-danger mx-1" onClick={()=> setModalEliminar({isOpen:true, task: task})}>
-        🗑️
-      </button>
-      {/*Aca importa el modal que pregunta al usuario si esta seguro de realizar las acciones de borrar la tarea*/}
-      <Modal isOpen={modalEliminar.isOpen} isClose={()=>setModalEliminar({isOpen: false, task:{}})}>
-      <div className='container text-center p-5'>
-        <h1>prueba "{modalEliminar.task.titulo}" ?</h1>
-        <div className='w-100 d-flex justify-content-center mt-3'>
-          <button className='btn btn-danger mx-1' onClick={onDelete}>si, borrar tarea</button>
-          <button className='btn btn-sucess mx-1' onClick={()=>setModalEliminar({isOpen: false, task:{}})}>no, no borrar tarea</button>
-        </div>
-      </div>
+      </Button>
+      <Button variant="outline-info" className="mx-1" onClick={handleToggleModal}>
+          🗑️
+        </Button>
+   
+     </div>
 
+     <div>
 
-       </Modal>
+ <Modals isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onDelete={handleDeleteTask}
+        task={taskToDelete} />
 
-
-
-    </div>
+     </div>
+    </>
   );
 };
 
