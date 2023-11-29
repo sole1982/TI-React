@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import Cards from "./Cards"
 
 function Example() {
   const [show, setShow] = useState(false);
@@ -10,7 +11,7 @@ function Example() {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
+      <Button variant="info" onClick={handleShow}>
         Tareas Futuras
       </Button>
 
@@ -19,8 +20,7 @@ function Example() {
           <Offcanvas.Title>Tareas Futuras</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          Some text as placeholder. In real life you can have the elements you
-          have chosen. Like, text, images, lists, etc.
+          <Cards></Cards>
         </Offcanvas.Body>
       </Offcanvas>
     </>
